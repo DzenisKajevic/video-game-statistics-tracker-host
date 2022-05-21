@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stat Track</title>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="Pictures/favicon.png">
+</head>
+
+<body style="font-family: 'Poppins', sans-serif; background-image: url('Pictures/background1.png');" id="background"
+    class="d-flex flex-column min-vh-100">
+
+
+    <!-- NAVBAR -->
+
+    <div>
+        <nav class="navbar navbar-expand-sm navbar-dark " aria-label="navbar" id="navbar">
+            <div class="container-fluid" id="navbar-container">
+                <a class="navbar-brand" id="navbar-brand" href="index.html">Stat Track</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExample03">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a id="your-profile" class="nav-link active" href="#" onclick="displayShowMatches()">Profile</a>
+                        </li>
+                    </ul>
+                    <!-- LOG IN -->
+                    <button id="sign-in" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+                        data-bs-target="#modalFormLog">Log In</button>
+                    <a class="nav-link active text-white" id="or" href="#">or</a>
+                    <button id="sign-up" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+                        data-bs-target="#modalFormSign">Sign up</button>
+                    <button id="sign-out" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+                        data-bs-target="#modalFormSign" onclick="UserService.logout()">Log Out</button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- MAIN PAGE -->
+
+
+    <div class="center text" id="main">
+        <div id="caption" class="caption text-center">
+            <h1>WELCOME TO STAT TRACK</h1>
+            <h3>FIND A PLAYER</h3>
+            <div>
+                <div id="server-button" class="btn-group">
+                    <button id="RegionButton" type="button" class="btn btn-danger dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Server
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="changeButtonText(this.innerText)">eun1</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="changeButtonText(this.innerText)">euw1</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="changeButtonText(this.innerText)">na1</a>
+                        </li>
+                    </ul>
+                </div>
+                <form id="SearchPlayer">
+                    <input id="SearchPlayerInput" class="form-control" type="text" placeholder="Search for a Player"
+                        aria-label="Search">
+                </form>
+                <!-- <div id="search-button" class="btn-group" onclick="RiotService.getSummonerInfo()">-->
+                <div id="search-button" class="btn-group">
+                    <button id="SearchButtonInput" type="button" class="btn btn-danger"
+                        onclick="RiotService.getSummonerInfo()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MATCHES -->
+
+    <div id="matches" class="d-none">
+        <div class="center text text-white">
+            <div class="caption text-center">
+                <div class="container-sm mb-5 mt-5">
+                    <div class="row">
+                        <div class="col-sm p-4">
+                            Profile
+                        </div>
+                    </div>
+                </div>
+                <div class="container-sm">
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 1
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 2
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 3
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 4
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 5
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 6
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 7
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 8
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 9
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm p-2">
+                            Match 10
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--COPYRIGHT-->
+
+    <div id="copyright" class="d-none">
+        <div class="container mb-5">
+            <div class="row g-2 text-center">
+                <div id="copyright-text" class="text-center text-white">
+                    <h1>COPYRIGHT</h1>
+                    <p id="copyright-paragraph"> Stat Track isnt endorsed by Riot Games and doesnt reflect the views or
+                        opinions
+                        of Riot Games or anyone officially involved in producing or managing League
+                        of Legends. League of Legends and Riot Games are trademarks or registered trademarks
+                        of Riot Games, Inc. League of Legends © Riot Games, Inc. </p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--FAQ-->
+
+    <div id="faq" class="d-none">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingOne">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                        aria-controls="flush-collapseOne">
+                        What is Stat Track ?
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track is a website that allows you to check your and
+                        other
+                        players League of Legends profiles.
+                        It allows you to track statistics, winrates, levels and divisions.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingTwo">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                        aria-controls="flush-collapseTwo">
+                        Who is creator of Stat Track ?
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track is created by 3 University students: Sandi
+                        Stokanovic,
+                        Dzenis Kajevic and Tarik Lilic.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingThree">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
+                        aria-controls="flush-collapseThree">
+                        Is Stat Track Riot official website ?
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">No, Stat Track is not a Riot Official website. It is a
+                        website
+                        created by 3 students, to track League of Legends
+                        players statistics.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingFour">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false"
+                        aria-controls="flush-collapseFour">
+                        Is Stat Track free to use ?
+                    </button>
+                </h2>
+                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track is free to use and currently has no charges.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingFive">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false"
+                        aria-controls="flush-collapseFive">
+                        Why can I only see limited amount of matches ?
+                    </button>
+                </h2>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Matches are limited due to Riot Games API limitations. We
+                        will be
+                        looking to increase
+                        the number in the future.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingSix">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false"
+                        aria-controls="flush-collapseSix">
+                        Will Stat Track add more games ?
+                    </button>
+                </h2>
+                <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track currently only tracks League of Legends
+                        statistics. We
+                        will be looking
+                        to add more Riot Games to Stat Track.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingSeven">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false"
+                        aria-controls="flush-collapseSeven">
+                        How did you get the idea for Stat Track ?
+                    </button>
+                </h2>
+                <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">We were always big fans of Riot Games. We used game trackers
+                        on
+                        daily bases, therefore we got the idea
+                        of making our own Stat Tracker.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingEight">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false"
+                        aria-controls="flush-collapseEight">
+                        What League of Legends regions are on Stat Track ?
+                    </button>
+                </h2>
+                <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Currently there are only 3 regions on Stat Track: Eune, Euw
+                        and
+                        NA. We will be looking to add
+                        more regions in the future
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingNine">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false"
+                        aria-controls="flush-collapseNine">
+                        Is Stat Track account free ?
+                    </button>
+                </h2>
+                <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track account is free to create and to use.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header bg-danger p-2" id="flush-headingTen">
+                    <button class="accordion-button collapsed bg-danger text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false"
+                        aria-controls="flush-collapseTen">
+                        Is Stat Track safe ?
+                    </button>
+                </h2>
+                <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body text-white">Stat Track is 100% safe to use. We won't have access to your
+                        Riot
+                        profile.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ABOUT US-->
+
+    <div id="about-us" class="d-none">
+        <div class="container ">
+            <div class="row g-2 text-center">
+                <div id="about-us-header" class="text-center">
+                    <h1>ABOUT US</h1>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-danger"> <img src="https://i.imgur.com/iNFaRXx.jpg" class="img-fluid rounded">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="info info-yellow">
+                                <div class="user-profile d-flex flex-row">
+                                    <div class="d-flex flex-column mr-4 p-2"> <span class="name">Dzenis Kajevic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-danger"> <img src="https://i.imgur.com/4IqYoqv.jpg" class="img-fluid rounded">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="info info-green">
+                                <div class="user-profile d-flex flex-row">
+                                    <div class="d-flex flex-column mr-3 p-2"> <span class="name">Sandi Stokanovic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-danger"> <img src="https://i.imgur.com/LvZVIzy.jpg" class="img-fluid rounded">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="info info-blue">
+                                <div class="user-profile d-flex flex-row">
+                                    <div class="d-flex flex-column mr-4 p-2"> <span class="name">Tarik Lilic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="about-us-text" class="text-center text-white bg-dark">
+                    <h1>We are Stat Track</h1>
+                    <p>We are three International Burch University students born and living in a small European country
+                        -
+                        Bosnia and Herzegovina. We are owners and
+                        creators of Stat Track platform. We are passionate gamers and programmers so we decided to make
+                        Stat
+                        Track, a platform to track your League of Legends statistics.
+                        We are looking to make more similar platforms to Stat Track in the future, or even expand Stat
+                        Track
+                        to more games.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <div id="foot" class="container mt-auto">
+        <footer class="text-center text-white p-2 mb-2 mt-3">
+            <div class="text-center">
+                <a id="copyright-footer" class="text-white footer-item" href="#" onclick="displayShowCopyright()">© 2020
+                    Copyright:
+                    StatTrack.com</a>
+                <a id="faq-footer" class="text-white footer-item" href="#" onclick="displayShowFaq()">Faq</a>
+                <a id="about-us-footer" class="text-white footer-item" href="#" onclick="displayShowAboutUs()">About
+                    us</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL LOG IN -->
+
+    <div class="modal fade text-white" id="modalFormLog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Please Log In to you account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label class="form-label text-white">Email Address</label>
+                            <input type="text" class="form-control" id="emailLogIn" name="emailLogIn"
+                                placeholder="Enter your email address" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">Password</label>
+                            <input type="password" class="form-control" id="passwordLogIn" name="passwordLogIn"
+                                placeholder="Enter your password" />
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMeLogIn" />
+                            <label class="form-check-label text-white" for="rememberMeSignIn">Remember me</label>
+                        </div>
+                        <div class="modal-footer d-block">
+                            <p class="float-start text-white p-2">Don't have an account yet ? <a class="text-white"
+                                    href="#" data-bs-toggle="modal" data-bs-target="#modalFormSign">Sign Up</a></p>
+                            <button type="submit" class="btn btn-danger float-end">Log
+                                In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SIGN UP -->
+
+    <div class="modal fade text-white" id="modalFormSign" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Please Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signup-form">
+                        <div class="mb-3">
+                            <label class="form-label text-white">Email Address</label>
+                            <input type="text" class="form-control" id="emailSignUp" name="emailSignUp"
+                                placeholder="Enter your email address" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">Username</label>
+                            <input type="text" class="form-control" id="usernameSignUp" name="usernameSignUp"
+                                placeholder="Enter your username" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">Password</label>
+                            <input type="password" class="form-control" id="passwordSignUp" name="passwordSignUp"
+                                placeholder="Enter your password" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">Confirm your Password</label>
+                            <input type="password" class="form-control" id="passwordSignUpConfirm"
+                                name="passwordSignUpConfirm" placeholder="Confirm your password" />
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMeSignUp" />
+                            <label class="form-check-label text-white" for="rememberMeSignUp">Remember me</label>
+                        </div>
+                        <div class="modal-footer d-block">
+                            <p class="float-start text-white p-2">Already have an account ? <a class="text-white"
+                                    href="#" data-bs-toggle="modal" data-bs-target="#modalFormLog">Log In</a></p>
+                            <button id="buttonSignUp" type="submit" class="btn btn-danger float-end">Sign Up</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeButtonText(value) {
+            var buttonVal = document.getElementById('RegionButton').innerText = value;
+        }
+
+        /*
+            function getPlayer() {
+                var server = document.getElementById('RegionButton').innerText;
+                var summoner = document.getElementById("SearchPlayerInput").value;
+                console.log("Name: " + summoner + " / Server: " + server);
+            }           
+*/
+        function displayShowCopyright() {
+            document.getElementById("copyright").classList.remove('d-none');
+            document.getElementById("copyright-footer").classList.add('text-decoration-underline');
+            document.getElementById("faq-footer").classList.remove('text-decoration-underline');
+            document.getElementById("about-us-footer").classList.remove('text-decoration-underline');
+            document.getElementById("main").classList.add('d-none');
+            document.getElementById("faq").classList.add('d-none');
+            document.getElementById("about-us").classList.add('d-none');
+        }
+
+        function displayShowFaq() {
+            document.getElementById("faq").classList.remove('d-none');
+            document.getElementById("faq-footer").classList.add('text-decoration-underline');
+            document.getElementById("copyright-footer").classList.remove('text-decoration-underline');
+            document.getElementById("about-us-footer").classList.remove('text-decoration-underline');
+            document.getElementById("main").classList.add('d-none');
+            document.getElementById("copyright").classList.add('d-none');
+            document.getElementById("about-us").classList.add('d-none');
+        }
+
+        function displayShowAboutUs() {
+            document.getElementById("about-us").classList.remove('d-none');
+            document.getElementById("about-us-footer").classList.add('text-decoration-underline');
+            document.getElementById("faq-footer").classList.remove('text-decoration-underline');
+            document.getElementById("copyright-footer").classList.remove('text-decoration-underline');
+            document.getElementById("main").classList.add('d-none');
+            document.getElementById("faq").classList.add('d-none');
+            document.getElementById("copyright").classList.add('d-none');
+        }
+
+        function displayShowMatches() {
+            document.getElementById("main").classList.add('d-none');
+            document.getElementById("matches").classList.remove('d-none');
+        }
+
+
+
+    </script>
+    <script src="js/script.js"></script>
+    <script src="js/riot-service.js"></script>
+    <script src="Bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/UserService.js"></script>
+    <script type="text/javascript" scr="js/toastr.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>  UserService.init();</script>
+</body>
+
+</html>

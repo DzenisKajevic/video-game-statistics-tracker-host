@@ -107,7 +107,7 @@ var UserService = {
 
         $.ajax({
             type: "POST",
-            url: ' /video-game-statistics-tracker/src/rest/login',
+            url: ' /video-game-statistics-tracker-host/rest/login',
             data: JSON.stringify(user),
             contentType: "application/json",
             dataType: "json",
@@ -144,7 +144,7 @@ var UserService = {
         console.log(JSON.stringify(user));
         $.ajax({
             type: "POST",
-            url: ' /video-game-statistics-tracker/src/rest/register',
+            url: ' /video-game-statistics-tracker-host/rest/register',
             data: JSON.stringify(user),
             contentType: "application/json",
             dataType: "json",

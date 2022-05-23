@@ -3,7 +3,8 @@
 Flight::route('GET /summoners/@summonerName/@region', function($summonerName, $region){ 
    //trenutno se poziva sa 
    //http://localhost/video-game-statistics-tracker/Backend/code/rest/summoners/Condemn%20for%20Stun/eun1
-   Flight::json(Flight::riotService()->getSummonerInfo($summonerName, $region));
+   //Flight::json(Flight::riotService()->getSummonerInfo($summonerName, $region));
+   Flight::json(Flight::riotService()->getSummonerMatches($summonerName, $region));
  });
 
 

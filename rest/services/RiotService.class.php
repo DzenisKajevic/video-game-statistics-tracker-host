@@ -7,7 +7,7 @@
       "Accept-Language: en-US,en;q=0.9",
       "Accept-Charset: application/x-www-form-urlencoded; charset=UTF-8",
       "Origin: https://developer.riotgames.com",
-      "X-Riot-Token: RGAPI-d14a97a1-86d9-483d-92e3-60216a91e8db"
+      "X-Riot-Token: RGAPI-46857b73-6c13-4195-a579-fa50e6831409"
     );
     
     private function getSummonerInfo1($summonerName, $region){
@@ -134,7 +134,22 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   }
+  public function getMatchIDs($requestData){
+    $ch = curl_init();
 
+    //$puuid je path parameter (mora biti unutar url-a), dok su $start i $count query params (optional)
+    //$start = 0;
+    //$count = 10;
+    //$url = 'https://' . $requestData['continent'] . '.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $requestData['puuid'] . '/ids?start=0' . $start . '&count=10' . $count;
+
+    $url = 'https://' . $requestData['continent'] . '.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $requestData['puuid'] . '/ids?start=0&count=1';
+
+    $this->setCurlOptions($ch, $url);
+
+    $response = curl_exec($ch);
+    $json = json_decode($response, true);
+    return $json;
+  }
 
 
 

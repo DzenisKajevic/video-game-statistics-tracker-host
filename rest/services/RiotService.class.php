@@ -7,7 +7,7 @@
       "Accept-Language: en-US,en;q=0.9",
       "Accept-Charset: application/x-www-form-urlencoded; charset=UTF-8",
       "Origin: https://developer.riotgames.com",
-      "X-Riot-Token: RGAPI-259883a2-e25a-4d0d-be41-73524f582617"
+      "X-Riot-Token: RGAPI-d14a97a1-86d9-483d-92e3-60216a91e8db"
     );
     
     private function getSummonerInfo1($summonerName, $region){
@@ -26,10 +26,10 @@
       curl_close($ch); // close connection
 
       $json = json_decode($response, true); // transform result from JSON (or whatever) into array
-      return $json;
+      //return $json;
 
       // or 
-      // return array('name' => $json['name'], 'something' => $json['something']);
+      return array('name' => $json['name'], 'puuid' => $json['puuid']);
     }
 
     private function getSummonerMatchesPrivate($puuid, $continent){

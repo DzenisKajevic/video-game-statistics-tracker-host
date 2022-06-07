@@ -107,7 +107,7 @@ var UserService = {
 
         $.ajax({
             type: "POST",
-            url: 'rest/login',
+            url: ' rest/login',
             data: JSON.stringify(user),
             contentType: "application/json",
             dataType: "json",
@@ -121,7 +121,8 @@ var UserService = {
 
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 //console.log(data);
-                toastr.error("error");
+                toastr.error(XMLHttpRequest.responseJSON.message);
+                //toastr.error("error");
                 console.log(errorThrown);
                 console.log(textStatus);
                 console.log(JSON.stringify(XMLHttpRequest));
@@ -144,7 +145,7 @@ var UserService = {
         console.log(JSON.stringify(user));
         $.ajax({
             type: "POST",
-            url: 'rest/register',
+            url: ' rest/register',
             data: JSON.stringify(user),
             contentType: "application/json",
             dataType: "json",
@@ -160,7 +161,8 @@ var UserService = {
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                toastr.error("error");
+                toastr.error(XMLHttpRequest.responseJSON.message);
+                //toastr.error("error");
                 console.log(errorThrown);
                 console.log(textStatus);
                 console.log(JSON.stringify(XMLHttpRequest));

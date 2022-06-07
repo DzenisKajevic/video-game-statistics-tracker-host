@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stat Track</title>
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="Pictures/favicon.png">
 </head>
 
@@ -32,13 +32,13 @@
                 <div class="collapse navbar-collapse" id="navbarsExample03">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                         <li class="nav-item">
-                            <a id="your-profile" class="nav-link active" href="#" onclick="displayShowMatches()">Profile</a>
+                            <a id="your-profile" class="nav-link active" href="#">Profile</a>
                         </li>
                     </ul>
                     <!-- LOG IN -->
                     <button id="sign-in" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
                         data-bs-target="#modalFormLog">Log In</button>
-                    <a class="nav-link active text-white" id="or" href="#">or</a>
+                    <a class="nav-link active text-white" id="or">or</a>
                     <button id="sign-up" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
                         data-bs-target="#modalFormSign">Sign up</button>
                     <button id="sign-out" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
@@ -85,11 +85,20 @@
         </div>
     </div>
 
-    <!-- MATCHES -->
 
+
+    <!-- SPINNER -->
+    <div id="main-container" class="d-none">
+        <div id="first-half"></div>
+        <div id="second-half"></div>
+        <h4 id="loading-text">loading...</h4>
+    </div>
+
+    <!-- MATCHES -->
     <div id="matches" class="d-none">
         <div class="center text text-white">
-            <div class="caption text-center">
+            <div class="caption text-center" id="matchContainer">
+                <!--
                 <div class="container-sm mb-5 mt-5">
                     <div class="row">
                         <div class="col-sm p-4">
@@ -99,56 +108,64 @@
                 </div>
                 <div class="container-sm">
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match1">
                             Match 1
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match2">
                             Match 2
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match3">
                             Match 3
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match4">
                             Match 4
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match5">
                             Match 5
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match6">
                             Match 6
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match7">
                             Match 7
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match8">
                             Match 8
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match9">
                             Match 9
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm p-2">
+                        <div class="col-sm p-2" id="match10">
                             Match 10
                         </div>
                     </div>
-                </div>
+                    -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="listallmatches" class="d-none">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
             </div>
         </div>
     </div>
@@ -542,10 +559,7 @@
             document.getElementById("copyright").classList.add('d-none');
         }
 
-        function displayShowMatches() {
-            document.getElementById("main").classList.add('d-none');
-            document.getElementById("matches").classList.remove('d-none');
-        }
+
 
 
 

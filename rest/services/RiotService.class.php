@@ -7,7 +7,7 @@
       "Accept-Language: en-US,en;q=0.9",
       "Accept-Charset: application/x-www-form-urlencoded; charset=UTF-8",
       "Origin: https://developer.riotgames.com",
-      "X-Riot-Token: RGAPI-b189c983-7154-4b0f-8613-d3cc849a4b8d"
+      "X-Riot-Token: RGAPI-8689c831-a589-402e-9948-85ce9ab573a6"
     );
     
     private function setCurlOptions($ch, $url){

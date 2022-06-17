@@ -7,7 +7,7 @@
       "Accept-Language: en-US,en;q=0.9",
       "Accept-Charset: application/x-www-form-urlencoded; charset=UTF-8",
       "Origin: https://developer.riotgames.com",
-      "X-Riot-Token: RGAPI-03cdd9f0-970e-4c15-be47-9860fe28a02e"
+      "X-Riot-Token: RGAPI-236e55d1-9bff-4f7e-98ea-8d25f8483bcd"
     );
     
     private function setCurlOptions($ch, $url){
@@ -86,6 +86,7 @@
       return $json;
     }
 
+    // error with unranked players
     private function getSummonerRanks($encryptedSummonerId, $region){
       $ch = curl_init();
       $url = 'https://' . $region . '.api.riotgames.com/lol/league/v4/entries/by-summoner/' . $encryptedSummonerId;
@@ -96,6 +97,10 @@
       $json = json_decode($response, true);
       $this->checkFor429Error($json);
       //return $json;
+      if(empty($json)){
+        return array('RANKED_FLEX_SR' => array('tier' => "", 'rank' => "UNRANKED", 'wins' => 0, 'losses' => 0), 
+        'RANKED_SOLO_5x5' => array('tier' => "",'rank' => "UNRANKED",'wins' => 0, 'losses' => 0));  
+      }
       return array('RANKED_FLEX_SR' => array('tier' => $json[0]['tier'], 'rank' => $json[0]['rank'], 'wins' => $json[0]['wins'], 'losses' => $json[0]['losses']), 
       'RANKED_SOLO_5x5' => array('tier' => $json[1]['tier'],'rank' => $json[1]['rank'],'wins' => $json[1]['wins'], 'losses' => $json[1]['losses']));
     }
@@ -310,7 +315,6 @@
       'item1' => 0, 'item2' => 0, 'item3' => 0, 'item4' => 0, 'item5' => 0, 'item6' => 0);
       $i = 0;
       while($i<10){
-        $i++;
         if($foundPlayer == "false"){
           if($info['participants'][$i]['puuid'] == $mainPlayerPuuid){
             $foundPlayer = true;
@@ -340,6 +344,7 @@
             else $returnVal['matchResult'] = "Defeat";
             return $returnVal;
         }}
+        $i++;
       }
       return $returnVal;
     }

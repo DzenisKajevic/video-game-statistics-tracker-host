@@ -1,146 +1,129 @@
-var RiotService = {
+var FavouriteMatchService = {
+    globalFavouriteMatches: "",
+
     displaySpinner: function () {
         document.getElementById("background").style.backgroundImage = "url('Pictures/background-blur.png')";
         document.getElementById("main").classList.add('d-none');
-        document.getElementById("main-container").classList.remove('d-none');
         document.getElementById("matches").classList.add('d-none');
         document.getElementById("favourites").classList.add('d-none');
+        document.getElementById("main-container").classList.remove('d-none');
     },
 
-    displayShowMatches: function () {
+    displayShowFavouriteMatches: function () {
         document.getElementById("background").style.backgroundImage = "url('Pictures/background-blur.png')";
         document.getElementById("main-container").classList.add('d-none');
         document.getElementById("matches").classList.remove('d-none');
     },
 
-    unhideMainPageOnFail: function () {
-        document.getElementById("background").style.backgroundImage = "url('Pictures/background1.png')";
-        document.getElementById("main-container").classList.add('d-none');
-        document.getElementById("matches").classList.add('d-none');
-        document.getElementById("main").classList.remove('d-none');
+    init: function () {
+        if (typeof (parsedUser) == 'undefined') $('#showFavouriteMatchesButton').hide();
     },
 
-    showLiveMatch: function () {
-        if ($("#liveMatchButton").html() === "Check Live Game") {
-            $("#liveMatchFull").show();
-            $("#liveMatchButton").html("Hide Live Game");
-            $("#liveMatchButton").removeClass("btn btn-success mb-5;");
-            $("#liveMatchButton").addClass("btn btn-danger mb-5;");
-        }
-        else {
-            $("#liveMatchFull").hide();
-            $("#liveMatchButton").html("Check Live Game");
-            $("#liveMatchButton").removeClass("btn btn-danger mb-5;");
-            $("#liveMatchButton").addClass("btn btn-success mb-5;");
-        }
-    },
-
-    globalResults: "",
-    globalPlayerInput: "",
-    globalRegion: "",
-    getSearch: function (){
-        searchPlayerInput = $('#SearchPlayerInput').val();
-        regionButton = $('#RegionButton').html().trim();
-        RiotService.getSummonerInfo(searchPlayerInput, regionButton)
-    },
-    getSummonerInfo: function (searchPlayerInput = "", regionButton = "") {
-        this.displaySpinner();
-        if(regionButton != ""){
-            globalRegion = regionButton.trim();
-            globalPlayerInput = searchPlayerInput;
-        }
-        globalRegion = globalRegion.trim();
-        console.log(globalRegion);
-
+    addFavourite: function (matchIndex) {
+        var match = new Object();
+        if ($('#RegionButton').html() === "na1") match.continent = "americas";
+        else match.continent = "europe";
+        if (typeof (parsedUser) != 'undefined'){
+            match.userId = parsedUser.iduser;};
+        match.mainPlayerPUUID = globalResults.puuid;
+        match.APImatchID = globalResults.matchIDs[matchIndex];
+        console.log(match);
         $.ajax({
-            url: 'rest/summoners/' + globalPlayerInput + "/" + globalRegion,
-
-            type: 'GET',
+            type: "POST",
+            url: ' rest/addFavouriteMatch',
+            data: JSON.stringify(match),
             contentType: "application/json",
-            //data nije potrebno jer se svi proslijedjeni podaci koriste u URL-u
             dataType: "json",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
             },
-            success: function (results) {
-                globalResults = results;
-                console.log(JSON.stringify(results));
-                var html = "";
-                //$("#matchContainer").html();
 
-                html += `
-                    <div class="container profile-container mb-5 mt-5">
-                    <div class="row profilebox">
-                        <div class="col p-4">
-                        <img class="shadow profileicons" src="Pictures/profileIcons/` + results.profileIconId + `.png" alt="profileicon"></img>`
-                    +
-                    `
-                        <br>Name:<br> `
-                    + results.name +
-                    `
-                        <br>Summoner Level: `
-                    + results.summonerLevel +
-                    `
-                        </div>
-                        <div class="col p-4">
-                        <img  class="profileicons" src="Pictures/rank/`
-                    + results.ranks[0].tier + '_' + results.ranks[0].rank +
-                    `.png" alt="profileicon"></img>
-                        <br>`;
-                html += results.ranks[0].queueType + `
-                        <br>Wins: `
-                    + results.ranks[0].wins +
-                    `
-                        <br>Losses: ` + results.ranks[0].losses +
-                    `
-                        </div>
-                        <div class="col p-4">
-                        <img  class="profileicons" src="Pictures/rank/`
-                    + results.ranks[1].tier + '_' + results.ranks[1].rank +
-                    `.png" alt="profileicon"></img>
-                        <br>`;
-                html += results.ranks[1].queueType + `
-                        <br>Wins: `
-                    + results.ranks[1].wins +
-                    `
-                        <br>Losses: ` + results.ranks[1].losses +
-                    `
+            success: function (data) {
+                toastr.success("Added to favourites");
+            },
+            error: function (errorMessage) {
+                console.log(errorMessage);
+                toastr.error(errorMessage.responseJSON.message);
+            }
+        });
+    },
+
+    removeFavourite: function (matchIndex) {
+        var old_html = $("#matchContainer").html();
+        $('#match' + (matchIndex + 1)).remove();
+        toastr.info("Removing in the background...");
+        var match = new Object();
+        if ($('#RegionButton').html() === "na1") match.continent = "americas";
+        else match.continent = "europe";
+        if (typeof (parsedUser) != 'undefined'){
+            match.userId = parsedUser.iduser;};
+        match.APImatchID = globalFavouriteMatches.matchIDs[matchIndex];
+        console.log(match);
+        $.ajax({
+            type: "DELETE",
+            url: ' rest/removeFavouriteMatch',
+            data: JSON.stringify(match),
+            contentType: "application/json",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
+            },
+
+            success: function (data) {
+                toastr.success("Removed from favourites");
+                var matchContainer = $('#matchContainer')[0];
+                var matchClass = $('.matchClass')[0];
+
+                //const matchContainer = 
+                if(!matchContainer.contains(matchClass)){
+                    toastr.info("Empty favourites, redirecting...");
+                    setTimeout(() => {window.location.replace("index.html");}, 3000);
+                } 
+            },
+            error: function (errorMessage) {
+                console.log(errorMessage);
+                toastr.error(errorMessage.responseJSON.message);
+                $("#matchContainer").html(old_html);
+            }
+        });
+    },
+
+    listFavouriteMatches: function () {
+        FavouriteMatchService.displaySpinner();
+        var userIdObject = new Object();
+        if (typeof (parsedUser) != 'undefined'){
+            userIdObject.userId = parsedUser.iduser;};
+        $.ajax({
+            type: "POST",
+            url: ' rest/favouriteMatches',
+            data: JSON.stringify(userIdObject),
+            contentType: "application/json",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', localStorage.getItem("token"));
+            },
+
+            success: function (results) {
+                globalFavouriteMatches = results;
+                console.log(results);
+                if (results["matches"].length == 0) console.log("empty");
+                else {
+                    var i, html = "";
+                    html += `
+                    <div class="container text-center">
+                        <div class="row">
+                            <h1 class="mt-5 mb-5">
+                                FAVOURITE MATCHES
+                            </h1>
                         </div>
                     </div>
-                    </div>`;
-                html += `<button type="button" onclick="FavouriteService.addFavourite()" class="btn btn-danger mb-5;">Add Favourite</button>`;
-                if (results.liveMatch.IsInMatch == true) {
-                    html += `<button id="liveMatchButton" type="button" onclick="RiotService.showLiveMatch()" class="btn btn-success mb-5;">
-                        Check Live Game
-                    </button>
-                    <div class="container mt-4 mb-5" style="display: none" id="liveMatchFull">`;
-                    for (i = 0; i < 10; i++) {
-                        html += `<div class="container" id="livematch"><div class="row"><div class="col text-center"><p class="text-break mt-3 livematchtext"><br>` + results.liveMatch.participants[i].summonerName + `</p></div>
-                            <div class="col "><img class="shadow championicons mt-2 mb-2" src="Pictures/champion/` + results.liveMatch.participants[i].championId + `.png" alt="ChampName"</img></div>
-                            <div class="col d-flex justify-content-start"><img class="shadow summspell mt-4 me-2" src="Pictures/summonerSpells/` + results.liveMatch.participants[i].summonerSpell1Id + `.png" alt="ChampName"></img>
-                            <img class="shadow summspell mt-4" src="Pictures/summonerSpells/` + results.liveMatch.participants[i].summonerSpell2Id + `.png" alt="ChampName"></img></div>
-                            <div class="col"><p class="text-break livematchtext"><br>Banned Champion:</p></div>`;
-                        if (results.liveMatch.bannedChampions[i] == undefined) continue;
-                        html += `
-                        <div class="col"><img class="shadow championicons mt-2 mb-2" src="Pictures/champion/` + results.liveMatch.bannedChampions[i] + `.png" alt="ChampName" width="30" height="30"></img></div></div></div>`;
-                    }
-                    html += `</div>`;
-                }
-                if (results.matches.length === 0) {
-                    $("#matchContainer").html(html);
-                    RiotService.displayShowMatches();
-                }
-
-                else {
-                    var i;
-
-                    for (i = 0; i < 5; i++) {
-
+                    `;
+                    for (i = 0; i < results['matches'].length; i++) {
                         if (results.matches[i].info.win == "true") {
                             html += `
-                        <div id="listallmatches">
+                        <div id="match` + (i + 1) + `", class="matchClass">
                             <div class="accordion accordion-flush" id="accordionFlushExample">
-                                    <div class="accordion-item" id="match` + (i + 1) + `">
+                                    <div class="accordion-item" id="matchDiv2` + (i + 1) + `">
                                     <h4 class="accordion-header bg-primary p-2" id="flush-heading` + (i + 1) + `">
                                     <button class="accordion-button collapsed bg-primary text-white" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapse` + (i + 1) + `" aria-expanded="false"
@@ -151,9 +134,9 @@ var RiotService = {
                         }
                         else {
                             html += `
-                        <div  id="listallmatches">
+                        <div  id="match` + (i + 1) + `", class="matchClass">
                             <div class="accordion accordion-flush" id="accordionFlushExample">
-                                    <div class="accordion-item" id="match` + (i + 1) + `">
+                                    <div class="accordion-item" id="matchDiv2` + (i + 1) + `">
                                     <h2 class="accordion-header bg-danger p-2" id="flush-heading` + (i + 1) + `">
                                     <button class="accordion-button collapsed bg-danger text-white" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapse` + (i + 1) + `" aria-expanded="false"
@@ -172,16 +155,16 @@ var RiotService = {
                             html += `<br>Played before: ` + parseInt(results.matches[i].info.playedBefore / 60) + ` minutes`
 
                         }
-                        //`<br>KDA: ` + results.matches[i].info 
                         html += `</div><div class="match-icon"><img class="shadow championicons" src="Pictures/champion/` + results.matches[i].info.searchedPlayerInfo.championId + `.png" alt="ChampName"></img></div>
                         <div class="match-text">Champion: ` + results.matches[i].info.searchedPlayerInfo.championName +
                             `<br>K/ ` + results.matches[i].info.searchedPlayerInfo.kills + ` D/ ` +
                             results.matches[i].info.searchedPlayerInfo.deaths + ` A/ ` + results.matches[i].info.searchedPlayerInfo.assists +
-                            `</div> </button><button type="button" onclick="FavouriteMatchService.addFavourite(` + i + `)" class="btn btn-danger mb-5;">Add Favourite</button>
+                            `</div> </button><button type="button" onclick="FavouriteMatchService.removeFavourite(` + i + `)" class="btn btn-danger mb-5;">Remove Favourite</button>
                     </h2>` +
                             `<div id="flush-collapse` + (i + 1) + `" class="accordion-collapse collapse" aria-labelledby="flush-heading` + (i + 1) + `"
                     data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body text-white">`;
+                        //5 divova
                         for (var j = 0; j < 10; j++) {
                             html += `
                             <div class="container">
@@ -216,8 +199,9 @@ var RiotService = {
                             <div id="minionsKilled"> CS: ` + results.matches[i].info.participants[j].totalMinionsKilled + ` </div> ` +
                                 `<div> CS per Minute: ` + (results.matches[i].info.participants[j].totalMinionsKilled / results.matches[i].info.matchLength).toFixed(2) + `</div>
                             </div>
-    
+
                             <div class="col-12 col-md-3 mt-2">`;
+
                             html += `<div class="row">`
                             html += `<div class="col mb-sm-2 p-2"><img class="shadow item" src="Pictures/item/` +
                                 results.matches[i].info.participants[j].item0 + `.png" alt="Item"></div>`;
@@ -246,22 +230,23 @@ var RiotService = {
                             <hr>
                             `;
                         }
+
                         html += `       </div>
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>`;
                     }
+                    FavouriteMatchService.displayShowFavouriteMatches();
                     $("#matchContainer").html(html);
-                    RiotService.displayShowMatches();
                 }
             },
-            error: function (errorMessage, XMLHttpRequest, textStatus, errorThrown) {
-                RiotService.unhideMainPageOnFail();
-                $fullErrorMessage = errorMessage.status + ": " + errorMessage.statusText;
-                toastr.error($fullErrorMessage);
+
+            error: function (errorMessage) {
                 console.log(errorMessage);
+                toastr.error(errorMessage.responseJSON.message);
             }
-        })
-    }
+        });
+
+    },
 }

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="22008145617-90rlvvhoshsh8f1idqletrotl1amkqiu.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="22008145617-90rlvvhoshsh8f1idqletrotl1amkqiu.apps.googleusercontent.com">
     <title>Stat Track</title>
 
     <link rel="stylesheet" href="style.css">
@@ -15,8 +16,9 @@
     <link rel="icon" type="image/x-icon" href="Pictures/favicon.png">
 </head>
 
-<body style="font-family: 'Poppins', sans-serif; background-image: url('Pictures/background1.png');" id="background"
-    class="d-flex flex-column min-vh-100">
+<body
+    style="font-family: 'Poppins', sans-serif; background-image: url('Pictures/background1.png'); background-attachment: fixed;"
+    id="background" class="d-flex flex-column min-vh-100">
 
 
     <!-- NAVBAR -->
@@ -35,6 +37,14 @@
                         <li class="nav-item">
                             <a id="your-profile" class="nav-link active" href="#">Profile</a>
                         </li>
+                        <li class="nav-item">
+                            <a id="your-profile" class="nav-link active" href="#"
+                                onclick="FavouriteMatchService.listFavouriteMatches();">Favourite Matches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="your-profile" class="nav-link active" href="#"
+                                onclick="FavouriteService.getFavouritePlayers()">Favourite Players</a>
+                        </li>
                     </ul>
                     <!-- LOG IN -->
                     <button id="sign-in" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
@@ -52,7 +62,7 @@
     <!-- MAIN PAGE -->
 
 
-    <div class="center text" id="main">
+    <div class="center-text" id="main">
         <div id="caption" class="caption text-center">
             <h1>WELCOME TO STAT TRACK</h1>
             <h3>FIND A PLAYER</h3>
@@ -71,17 +81,21 @@
                         </li>
                     </ul>
                 </div>
-                <form id="SearchPlayer">
+                <form id="SearchPlayer" class="mb-5">
                     <input id="SearchPlayerInput" class="form-control" type="text" placeholder="Search for a Player"
                         aria-label="Search">
                 </form>
                 <!-- <div id="search-button" class="btn-group" onclick="RiotService.getSummonerInfo()">-->
                 <div id="search-button" class="btn-group">
                     <button id="SearchButtonInput" type="button" class="btn btn-danger"
-                        onclick="RiotService.getSummonerInfo()">
+                        onclick="RiotService.getSearch()">
                         Search
                     </button>
                 </div>
+            </div>
+            <div class="mt-5">
+                <div>Did you know ?</div>
+                <div id="tip"></div>
             </div>
         </div>
     </div>
@@ -99,70 +113,19 @@
     <div id="matches" class="d-none">
         <div class="center text text-white">
             <div class="caption text-center" id="matchContainer">
-                <!--
-                <div class="container-sm mb-5 mt-5">
-                    <div class="row">
-                        <div class="col-sm p-4">
-                            Profile
-                        </div>
-                    </div>
-                </div>
-                <div class="container-sm">
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match1">
-                            Match 1
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match2">
-                            Match 2
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match3">
-                            Match 3
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match4">
-                            Match 4
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match5">
-                            Match 5
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match6">
-                            Match 6
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match7">
-                            Match 7
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match8">
-                            Match 8
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match9">
-                            Match 9
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm p-2" id="match10">
-                            Match 10
-                        </div>
-                    </div>
-                    -->
+
             </div>
         </div>
     </div>
+
+    <div id="favourites" class="d-none">
+        <div class="center text text-white">
+            <div class="caption text-center" id="favouritesContainer">
+
+            </div>
+        </div>
     </div>
+
 
     <div id="listallmatches" class="d-none">
         <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -170,6 +133,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!--COPYRIGHT-->
 
@@ -503,11 +468,6 @@
                             <input type="password" class="form-control" id="passwordSignUpConfirm"
                                 name="passwordSignUpConfirm" placeholder="Confirm your password" />
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMeSignUp" />
-                            <label class="form-check-label text-white" for="rememberMeSignUp">Remember me</label>
-                        </div>
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                         <div class="modal-footer d-block">
                             <p class="float-start text-white p-2">Already have an account ? <a class="text-white"
                                     href="#" data-bs-toggle="modal" data-bs-target="#modalFormLog">Log In</a></p>
@@ -524,13 +484,6 @@
             var buttonVal = document.getElementById('RegionButton').innerText = value;
         }
 
-        /*
-            function getPlayer() {
-                var server = document.getElementById('RegionButton').innerText;
-                var summoner = document.getElementById("SearchPlayerInput").value;
-                console.log("Name: " + summoner + " / Server: " + server);
-            }           
-*/
         function displayShowCopyright() {
             document.getElementById("copyright").classList.remove('d-none');
             document.getElementById("copyright-footer").classList.add('text-decoration-underline');
@@ -561,8 +514,13 @@
             document.getElementById("copyright").classList.add('d-none');
         }
 
-
-
+        var input = document.getElementById("SearchPlayerInput");
+        input.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("SearchButtonInput").onclick();
+            }
+        });
 
 
     </script>
@@ -570,11 +528,16 @@
     <script src="Bootstrap/js/bootstrap.bundle.js"></script>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript" src="js/UserService.js"></script>
+    <script type="text/javascript" src="js/FavouriteService.js"></script>
+    <script type="text/javascript" src="js/FavouriteMatchService.js"></script>
+    <script type="text/javascript" src="js/TipsService.js"></script>
     <script type="text/javascript" scr="js/toastr.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script>  UserService.init();</script>
+    <script> UserService.init();</script>
+    <script> FavouriteMatchService.init(); </script>
+    <script> TipsService.init(); </script>
+
 </body>
 
 </html>

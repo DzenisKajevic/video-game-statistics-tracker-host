@@ -2,9 +2,9 @@
 require_once __DIR__.'/../Config.class.php';
 class BaseDao{
 
-  private $conn;
+  protected $conn;
 
-  private $table_name;
+  protected $table_name;
 
   /**
   * constructor of dao class
@@ -88,6 +88,13 @@ class BaseDao{
   protected function query_unique($query, $params){
     $results = $this->query($query, $params);
     return reset($results);
+  }
+
+  
+  protected function query_specific($query){
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

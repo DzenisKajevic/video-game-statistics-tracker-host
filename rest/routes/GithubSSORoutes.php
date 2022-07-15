@@ -5,7 +5,7 @@ use Firebase\JWT\Key;
 Flight::route('GET /SSO-login', function(){
   header('Access-Control-Allow-Origin: *');
   
-  $url = "https://github.com/login/oauth/authorize?client_id=" . Config::CLIENT_ID() . "&redirect_uri=http://127.0.0.1:80/video-game-statistics-tracker/SSO-login-callback.php";
+  $url = "https://github.com/login/oauth/authorize?client_id=" . Config::CLIENT_ID() . "&redirect_uri=https://stattrack.me/SSO-login-callback.php";
   //$url = "https://beat-cors-master.herokuapp.com/";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);

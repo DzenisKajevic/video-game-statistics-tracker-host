@@ -40,7 +40,7 @@ Flight::route('/*', function(){
     
     //perform JWT decode
     $path = Flight::request()->url;
-    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || strpos($path, '/summoners') === 0) return TRUE;
+    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || $path == '/SSO-login' || $path == '/SSO-login-callback' || strpos($path, '/summoners') === 0) return TRUE;
     // || // exclude routes from middleware
     // str_starts_with($path, '/summonersMobileAPI/') || str_starts_with($path, '/summoners/')
     $headers = getallheaders();
@@ -70,6 +70,7 @@ echo $openapi->toJson();
 });
 
 require_once __DIR__.'/routes/UserRoutes.php';
+require_once __DIR__.'/routes/GithubSSORoutes.php';
 require_once __DIR__.'/routes/RiotRoutes.php';
 require_once __DIR__.'/routes/FavouriteRoutes.php';
 require_once __DIR__.'/routes/FavouriteMatchRoutes.php';

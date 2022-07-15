@@ -49,6 +49,9 @@
                     <!-- LOG IN -->
                     <button id="sign-in" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
                         data-bs-target="#modalFormLog">Log In</button>
+                    <button id="sign-in-sso" type="button" class="btn btn-outline-light"
+                        onclick="GithubSSOService.login()">Log In With
+                        Github</button>
                     <a class="nav-link active text-white" id="or">or</a>
                     <button id="sign-up" type="button" class="btn btn-outline-light" data-bs-toggle="modal"
                         data-bs-target="#modalFormSign">Sign up</button>
@@ -529,6 +532,7 @@
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="js/UserService.js"></script>
+    <script type="text/javascript" src="js/GithubSSOService.js"></script>
     <script type="text/javascript" src="js/FavouriteService.js"></script>
     <script type="text/javascript" src="js/FavouriteMatchService.js"></script>
     <script type="text/javascript" src="js/TipsService.js"></script>

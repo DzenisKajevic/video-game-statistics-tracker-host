@@ -10,7 +10,7 @@ require_once __DIR__.'../../vendor/autoload.php';
 require_once __DIR__.'/services/UserService.class.php';
 require_once __DIR__.'/services/RiotService.class.php';
 require_once __DIR__.'/services/RecentSearchesService.class.php';
-require_once __DIR__.'/services/FavouriteService.class.php';
+require_once __DIR__.'\services\FavouriteService.class.php';
 require_once __DIR__.'/services/FavouriteMatchService.class.php';
 require_once __DIR__.'/services/TipsService.class.php';
 require_once __DIR__.'/dao/BaseDao.class.php';
@@ -40,7 +40,7 @@ Flight::route('/*', function(){
     
     //perform JWT decode
     $path = Flight::request()->url;
-    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || $path == '/SSO-login' || strpos($path, '/SSO-login-callback') === 0 || strpos($path, '/summoners') === 0) return TRUE;
+    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || strpos($path, '/summoners') === 0) return TRUE;
     // || // exclude routes from middleware
     // str_starts_with($path, '/summonersMobileAPI/') || str_starts_with($path, '/summoners/')
     $headers = getallheaders();
@@ -70,7 +70,6 @@ echo $openapi->toJson();
 });
 
 require_once __DIR__.'/routes/UserRoutes.php';
-require_once __DIR__.'/routes/GithubSSORoutes.php';
 require_once __DIR__.'/routes/RiotRoutes.php';
 require_once __DIR__.'/routes/FavouriteRoutes.php';
 require_once __DIR__.'/routes/FavouriteMatchRoutes.php';

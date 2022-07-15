@@ -40,7 +40,7 @@ Flight::route('/*', function(){
     
     //perform JWT decode
     $path = Flight::request()->url;
-    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || $path == '/SSO-login' || $path == '/SSO-login-callback' || strpos($path, '/summoners') === 0) return TRUE;
+    if ($path == '/login' || $path == '/register' || $path == '/docs.json' || $path == '/tip' || $path == '/SSO-login' || strpos($path, '/SSO-login-callback') === 0 || strpos($path, '/summoners') === 0) return TRUE;
     // || // exclude routes from middleware
     // str_starts_with($path, '/summonersMobileAPI/') || str_starts_with($path, '/summoners/')
     $headers = getallheaders();

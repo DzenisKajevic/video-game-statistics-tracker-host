@@ -38,15 +38,15 @@ var RiotService = {
     globalResults: "",
     globalPlayerInput: "",
     globalRegion: "",
-    getSearch: function (){
+    getSearch: function () {
         searchPlayerInput = $('#SearchPlayerInput').val();
         regionButton = $('#RegionButton').html().trim();
         RiotService.getSummonerInfo(searchPlayerInput, regionButton)
     },
     getSummonerInfo: function (searchPlayerInput = "", regionButton = "") {
         this.displaySpinner();
-        if(regionButton != ""){
-            globalRegion = regionButton.trim();
+        if (regionButton != "") {
+            globalRegion = regionButton;
             globalPlayerInput = searchPlayerInput;
         }
         globalRegion = globalRegion.trim();
@@ -106,9 +106,9 @@ var RiotService = {
                         <br>Losses: ` + results.ranks[1].losses +
                     `
                         </div>
+                        <button type="button" onclick="FavouriteService.addFavourite()" class="btn btn-danger mb-5;">Add Favourite</button>
                     </div>
                     </div>`;
-                html += `<button type="button" onclick="FavouriteService.addFavourite()" class="btn btn-danger mb-5;">Add Favourite</button>`;
                 if (results.liveMatch.IsInMatch == true) {
                     html += `<button id="liveMatchButton" type="button" onclick="RiotService.showLiveMatch()" class="btn btn-success mb-5;">
                         Check Live Game
@@ -141,7 +141,8 @@ var RiotService = {
                         <div id="listallmatches">
                             <div class="accordion accordion-flush" id="accordionFlushExample">
                                     <div class="accordion-item" id="match` + (i + 1) + `">
-                                    <h4 class="accordion-header bg-primary p-2" id="flush-heading` + (i + 1) + `">
+                                    <h2 class="accordion-header bg-primary p-2" id="flush-heading` + (i + 1) + `">
+                                    <button type="button" onclick="FavouriteMatchService.addFavourite(` + i + `)" class="btn btn-primary mb-5;">Add Favourite</button>
                                     <button class="accordion-button collapsed bg-primary text-white" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapse` + (i + 1) + `" aria-expanded="false"
                                         aria-controls="flush-collapse` + (i + 1) + `">
@@ -155,6 +156,7 @@ var RiotService = {
                             <div class="accordion accordion-flush" id="accordionFlushExample">
                                     <div class="accordion-item" id="match` + (i + 1) + `">
                                     <h2 class="accordion-header bg-danger p-2" id="flush-heading` + (i + 1) + `">
+                                    <button type="button" onclick="FavouriteMatchService.addFavourite(` + i + `)" class="btn btn-danger mb-5;">Add Favourite</button>
                                     <button class="accordion-button collapsed bg-danger text-white" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapse` + (i + 1) + `" aria-expanded="false"
                                         aria-controls="flush-collapse` + (i + 1) + `">
@@ -177,7 +179,7 @@ var RiotService = {
                         <div class="match-text">Champion: ` + results.matches[i].info.searchedPlayerInfo.championName +
                             `<br>K/ ` + results.matches[i].info.searchedPlayerInfo.kills + ` D/ ` +
                             results.matches[i].info.searchedPlayerInfo.deaths + ` A/ ` + results.matches[i].info.searchedPlayerInfo.assists +
-                            `</div> </button><button type="button" onclick="FavouriteMatchService.addFavourite(` + i + `)" class="btn btn-danger mb-5;">Add Favourite</button>
+                            `</div> </button>
                     </h2>` +
                             `<div id="flush-collapse` + (i + 1) + `" class="accordion-collapse collapse" aria-labelledby="flush-heading` + (i + 1) + `"
                     data-bs-parent="#accordionFlushExample">

@@ -11,7 +11,7 @@ class RecentSearchesDao extends BaseDao {
     return $this->query_unique("SELECT * FROM recentsearches WHERE summonerName = :summonerName AND region = :region",
     ['summonerName' => $summonerName, 'region' => $region]);
   }
-
+  
   public function update($puuid, $entity, $id_column = "puuid"){
     $query = "UPDATE ".$this->table_name." SET ";
     foreach($entity as $name => $value){

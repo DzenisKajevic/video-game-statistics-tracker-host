@@ -2,10 +2,9 @@ var UserService = {
     parsedUser: "",
     init: function () {
         var token = localStorage.getItem("token");
-        if (token) {
+        if (token) { // if user is logged in
             try {
-                var token = localStorage.getItem("token");
-                var base64Url = token.split('.')[1];
+                var base64Url = token.split('.')[1];      //function for getting data from JWT key
                 var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
                 var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -17,24 +16,24 @@ var UserService = {
                 setTimeout(() => { this.logout(); }, 3000);
 
             }
-            document.getElementById("sign-in").classList.add('d-none');
-            document.getElementById("sign-up").classList.add('d-none');
-            document.getElementById("or").classList.add('d-none');
-            document.getElementById("sign-out").classList.remove('d-none');
+            $("#sign-in").addClass('d-none');
+            $("#sign-up").addClass('d-none');
+            $("#or").addClass('d-none');
+            $("#sign-out").removeClass('d-none');
 
-            document.getElementById("your-profile").innerHTML = parsedUser.username;
+            $("#your-profile").html(parsedUser.username);
 
 
-        } else {
-            document.getElementById("sign-in").classList.remove('d-none');
-            document.getElementById("sign-up").classList.remove('d-none');
-            document.getElementById("sign-out").classList.add('d-none');
-            document.getElementById("your-profile").classList.add('d-none');
-            document.getElementById("or").classList.remove('d-none');
+        } else { //if user isn't logged in
+            $("#sign-in").removeClass('d-none');
+            $("#sign-up").removeClass('d-none');
+            $("#sign-out").addClass('d-none');
+            $("#your-profile").addClass('d-none');
+            $("#or").removeClass('d-none');
         }
 
 
-
+        // login and signup forms validations and function calls
         $('#login-form').validate({
             rules: {
                 emailLogIn: {
@@ -110,8 +109,9 @@ var UserService = {
 
 
     },
+
+    //login
     login: function (user) {
-        console.log(JSON.stringify(user));
 
         $.ajax({
             type: "POST",
@@ -121,34 +121,29 @@ var UserService = {
             dataType: "json",
 
             success: function (data) {
-                console.log(data);
-                localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.token); //sets jwt token from data
                 window.location.replace("index.html");
             },
 
 
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                //console.log(data);
-                toastr.error(XMLHttpRequest.responseJSON.message);
-                //toastr.error("error");
                 console.log(errorThrown);
                 console.log(textStatus);
                 console.log(JSON.stringify(XMLHttpRequest));
                 console.log(JSON.stringify(XMLHttpRequest.responseJSON));
-                console.log(JSON.stringify(XMLHttpRequest.responseJSON.message));
             }
         });
     },
 
 
-
+    //log out user
     logout: function () {
-        localStorage.clear();
+        localStorage.clear(); //remove token from local storage
         window.location.replace("index.html");
     },
 
 
-
+    //register user
     register: function (user) {
         console.log(JSON.stringify(user));
         $.ajax({
@@ -161,16 +156,12 @@ var UserService = {
             success: function (data) {
                 $('#SignUpModal').modal('toggle');
                 localStorage.setItem("token", data.token);
-                console.log(data.token);
                 toastr.success('You have been succesfully registered.');
                 localStorage.clear();
-                console.log("data");
                 window.location.replace("index.html");
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                toastr.error(XMLHttpRequest.responseJSON.message);
-                //toastr.error("error");
                 console.log(errorThrown);
                 console.log(textStatus);
                 console.log(JSON.stringify(XMLHttpRequest));

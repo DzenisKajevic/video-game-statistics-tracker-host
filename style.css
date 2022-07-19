@@ -11,6 +11,10 @@ body {
     font-size: 1.2rem;
 }
 
+.favmatch {
+    cursor: pointer;
+}
+
 
 #navbar-brand {
     margin-right: 1.5rem;
@@ -515,6 +519,8 @@ body {
 #about-us-text h1 {
     padding-top: 1rem;
 }
+
+/** SPINNER **/
 
 /** main container element **/
 #main-container {

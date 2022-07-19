@@ -10,7 +10,7 @@
       "Accept-Language: en-US,en;q=0.9",
       "Accept-Charset: application/x-www-form-urlencoded; charset=UTF-8",
       "Origin: https://developer.riotgames.com",
-      "X-Riot-Token: RGAPI-7fbc161b-08e4-42a2-85f5-1b3d2e19e47a"
+      "X-Riot-Token: RGAPI-6e6b99b0-9ae9-4e80-bdc5-60e38638094a"
     );
     
     // SET CURL CONNECTION OPTIONS: HEADERS, URL, ACCEPT RETURNED INFO, SSL)
